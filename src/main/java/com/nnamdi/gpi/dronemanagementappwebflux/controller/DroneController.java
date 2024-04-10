@@ -29,7 +29,7 @@ public class DroneController {
 
 
     @PostMapping
-    public Mono<ResponseEntity<Response>> createTask(@Valid @RequestBody RegisterDroneDto requestDto) {
+    public Mono<ResponseEntity<Response>> registerDrone(@Valid @RequestBody RegisterDroneDto requestDto) {
         return Mono.just(requestDto)
                 .flatMap(droneService::registerDrone)
                 .map(responseUtil::getSuccessResponse)
@@ -40,7 +40,7 @@ public class DroneController {
 
 
     @GetMapping
-    public Mono<ResponseEntity<Response>> getTasks(@RequestParam(value = "page", required = false, defaultValue = "1") int page, @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+    public Mono<ResponseEntity<Response>> getDrones(@RequestParam(value = "page", required = false, defaultValue = "1") int page, @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
         return droneService.getDrones(page,limit).map(responseUtil::getSuccessResponse).map(ResponseEntity::ok);
     }
 
