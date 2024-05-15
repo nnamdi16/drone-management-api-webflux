@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.nnamdi.gpi</groupId>
-	<artifactId>drone-management-app-webflux</artifactId>
+	<artifactId>drone-management-api-webflux</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>drone-management-app-webflux</name>
+	<name>drone-management-api-webflux</name>
 	<description>Spring Boot REST-based application that simulates the management of a drone within a farm field using webflux</description>
 	<properties>
 		<java.version>17</java.version>
@@ -75,6 +75,35 @@
 
 	<build>
 		<plugins>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.2</version>
+				<configuration>
+					<from>
+						<image>openjdk:17</image>
+						<platforms>
+							<platform>
+								<architecture>amd64</architecture>
+								<os>linux</os>
+							</platform>
+						</platforms>
+					</from>
+					<to>
+						<image>drone-management-api-webflux</image>
+					</to>
+					<container>
+						<mainClass>com.nnamdi.gpi.dronemanagementappwebflux.DroneManagementAppWebfluxApplication</mainClass>
+
+						<ports>
+							<port>9090</port>
+							<port>7801</port>
+						</ports>
+
+
+					</container>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
