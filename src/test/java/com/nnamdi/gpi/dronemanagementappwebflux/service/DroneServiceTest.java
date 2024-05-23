@@ -5,6 +5,7 @@ import com.nnamdi.gpi.dronemanagementappwebflux.provider.MessageProvider;
 import com.nnamdi.gpi.dronemanagementappwebflux.repository.DroneRepository;
 import com.nnamdi.gpi.dronemanagementappwebflux.request.RegisterDroneDto;
 import com.nnamdi.gpi.dronemanagementappwebflux.service.impl.DroneServiceImpl;
+import com.nnamdi.gpi.dronemanagementappwebflux.service.impl.ExternalApiService;
 import com.nnamdi.gpi.dronemanagementappwebflux.util.DroneUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,13 +38,16 @@ class DroneServiceTest {
     @Mock
     DroneService droneService;
 
+    @Mock
+    ExternalApiService externalApiService;
+
     @BeforeEach
     public void setUp() {
         MockitoAnnotations.openMocks(this);
         modelMapper = new ModelMapper();
         messageProvider = new MessageProvider(messageSource);
 
-        droneService = new DroneServiceImpl(modelMapper, droneUtil, droneRepository, messageProvider);
+        droneService = new DroneServiceImpl(modelMapper, droneUtil, droneRepository, messageProvider, externalApiService);
     }
 
     @Test
