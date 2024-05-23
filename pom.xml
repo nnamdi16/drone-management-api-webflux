@@ -18,6 +18,7 @@
 		<modelmapper.version>3.2.0</modelmapper.version>
 		<springdoc-openapi-starter-webflux-api.version>2.5.0</springdoc-openapi-starter-webflux-api.version>
 		<r2dbc-postgresql.version>1.0.4.RELEASE</r2dbc-postgresql.version>
+		<reactor-netty.version>1.1.19</reactor-netty.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -64,6 +65,12 @@
 			<groupId>org.modelmapper</groupId>
 			<artifactId>modelmapper</artifactId>
 			<version>${modelmapper.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.projectreactor.netty</groupId>
+			<artifactId>reactor-netty</artifactId>
+			<version>${reactor-netty.version}</version>
 		</dependency>
 
 		<dependency>
