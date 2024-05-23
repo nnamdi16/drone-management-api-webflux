@@ -40,8 +40,8 @@ public class TestMock {
         return drone;
     }
 
-    public static Response buildResponse(Object data) {
-        return new Response(ResponseCodes.SUCCESS.code(), ConstantsUtil.SUCCESSFUL, data, "");
+    public static <T> Response<T> buildResponse(T data) {
+        return new Response<>(ResponseCodes.SUCCESS.code(), ConstantsUtil.SUCCESSFUL, data, "");
     }
 
 }
