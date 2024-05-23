@@ -1,11 +1,13 @@
 package com.nnamdi.gpi.dronemanagementappwebflux.controller;
 
+import com.nnamdi.gpi.dronemanagementappwebflux.dto.DroneDto;
 import com.nnamdi.gpi.dronemanagementappwebflux.dto.Response;
 import com.nnamdi.gpi.dronemanagementappwebflux.request.RegisterDroneDto;
 import com.nnamdi.gpi.dronemanagementappwebflux.service.DroneService;
 import com.nnamdi.gpi.dronemanagementappwebflux.util.ResponseUtil;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
@@ -29,7 +31,7 @@ public class DroneController {
 
 
     @PostMapping
-    public Mono<ResponseEntity<Response>> registerDrone(@Valid @RequestBody RegisterDroneDto requestDto) {
+    public Mono<ResponseEntity<Response<DroneDto>>> registerDrone(@Valid @RequestBody RegisterDroneDto requestDto) {
         return Mono.just(requestDto)
                 .flatMap(droneService::registerDrone)
                 .map(responseUtil::getSuccessResponse)
@@ -40,8 +42,14 @@ public class DroneController {
 
 
     @GetMapping
-    public Mono<ResponseEntity<Response>> getDrones(@RequestParam(value = "page", required = false, defaultValue = "1") int page, @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
-        return droneService.getDrones(page,limit).map(responseUtil::getSuccessResponse).map(ResponseEntity::ok);
+    public Mono<ResponseEntity<Response<PageImpl<DroneDto>>>> getDrones(
+            @RequestParam(value = "page", required = false, defaultValue = "1") int page,
+            @RequestParam(value = "limit", required = false, defaultValue = "50") int limit) {
+
+        return droneService.getDrones(page, limit)
+                .map(responseUtil::getSuccessResponse)
+                .map(ResponseEntity::ok);
     }
+
 
 }
