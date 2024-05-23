@@ -14,10 +14,7 @@ import com.nnamdi.gpi.dronemanagementappwebflux.util.DroneUtil;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -32,6 +29,7 @@ public class DroneServiceImpl implements DroneService {
     private final DroneUtil droneUtil;
     private final DroneRepository droneRepository;
     private final MessageProvider messageProvider;
+    private final ExternalApiService externalApiService;
 
     @Override
     public DroneDto moveDrone(String id, UpdateDronePositionDto updateDroneDto) {
@@ -44,13 +42,14 @@ public class DroneServiceImpl implements DroneService {
     }
 
     @Override
-    public Mono<Page<Drone>> getDrones(int page, int limit) {
+    public Mono<PageImpl<DroneDto>> getDrones(int page, int limit) {
         log.info("about to retrieve all drones by pagination {}, {}", page, limit);
         AppUtil.validatePageRequest(page, limit);
-        Pageable pageable = PageRequest.of(page - 1, limit);
-        return droneRepository.findAllBy(pageable).collectList()
-                .zipWith(this.droneRepository.count())
-                .map(drone -> new PageImpl<>(drone.getT1(), pageable, drone.getT2()));
+//        Pageable pageable = PageRequest.of(page - 1, limit);
+        return externalApiService.getDrones(page, limit);
+//        return droneRepository.findAllBy(pageable).collectList()
+//                .zipWith(this.droneRepository.count())
+//                .map(drone -> new PageImpl<>(drone.getT1(), pageable, drone.getT2()));
 
     }
 
