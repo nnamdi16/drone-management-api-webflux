@@ -1,0 +1,47 @@
+#apiVersion: security.istio.io/v1beta1
+#kind: PeerAuthentication
+#metadata:
+#  name: default
+#  namespace: istio-system
+#spec:
+#  mtls:
+#    mode: STRICT
+#---
+#apiVersion: install.istio.io/v1alpha1
+#kind: IstioOperator
+#spec:
+#  meshConfig:
+#    meshMTLS:
+#      minProtocolVersion: TLSV1_3
+
+apiVersion: networking.istio.io/v1alpha3
+kind: VirtualService
+metadata:
+  name: drone-management-api
+  namespace: default
+spec:
+  hosts:
+    - "drone-management-api"
+  gateways:
+    - istio-system/istio-ingressgateway
+  http:
+    - match:
+        - uri:
+            prefix: /api/v1/drone
+      route:
+        - destination:
+            host: drone-management-api
+            port:
+              number: 9000
+---
+
+apiVersion: networking.istio.io/v1alpha3
+kind: DestinationRule
+metadata:
+  name: drone-management-api
+  namespace: default
+spec:
+  host: drone-management-api
+  trafficPolicy:
+    tls:
+      mode: ISTIO_MUTUAL
