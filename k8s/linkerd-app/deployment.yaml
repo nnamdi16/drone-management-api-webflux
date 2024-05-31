@@ -1,25 +1,25 @@
-#apiVersion: v1
-#kind: ConfigMap
-#metadata:
-#  name: drone-mg
-#data:
-#  postgres_host: postgres
-#  postgres_port: "5432"
-#  postgres_database: test_db
-#  postgres_user: hello
-#---
-#apiVersion: v1
-#kind: Secret
-#metadata:
-#  name: drone-mg
-#stringData:
-#  postgres_password: topsecret
-#---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: drone-mg
+data:
+  postgres_host: postgres
+  postgres_port: "5432"
+  postgres_database: test_db
+  postgres_user: hello
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: drone-mg
+stringData:
+  postgres_password: topsecret
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: drone-management-api-webflux-ingress
-  namespace: default
+  namespace: linkerd-app
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 spec:
@@ -27,7 +27,7 @@ spec:
     - http:
         paths:
           - pathType: Prefix
-            path: /drone-management-api-webflux(/|$)(.*)
+            path: /drone-webflux-linkerd(/|$)(.*)
             backend:
               service:
                 name: drone-management-api-webflux
@@ -37,7 +37,6 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  namespace: default
   name: drone-management-api-webflux
   labels:
     app: drone-management-api-webflux
@@ -52,7 +51,6 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  namespace: default
   name: drone-management-api-webflux
 spec:
   selector:
@@ -69,7 +67,7 @@ spec:
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 9090
-#---
+---
 #apiVersion: apps/v1
 #kind: Deployment
 #metadata:
