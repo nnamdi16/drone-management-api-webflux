@@ -17,8 +17,8 @@
 		<java.version>17</java.version>
 		<modelmapper.version>3.2.0</modelmapper.version>
 		<springdoc-openapi-starter-webflux-api.version>2.5.0</springdoc-openapi-starter-webflux-api.version>
-		<r2dbc-postgresql.version>1.0.4.RELEASE</r2dbc-postgresql.version>
 		<reactor-netty.version>1.1.19</reactor-netty.version>
+		<r2dbc-postgresql.version>0.8.13.RELEASE</r2dbc-postgresql.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -34,7 +34,7 @@
 			<artifactId>spring-boot-starter-validation</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.postgresql</groupId>
+			<groupId>io.r2dbc</groupId>
 			<artifactId>r2dbc-postgresql</artifactId>
 			<version>${r2dbc-postgresql.version}</version>
 		</dependency>
